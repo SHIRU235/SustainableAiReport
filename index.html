@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sustainable AI Energy Estimator & Prompt Optimizer - Project Report</title>
+    <style>
+        /* Reset and base */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f9;
+            color: #2c3e50;
+            margin: 0;
+            padding: 2rem 4rem;
+            line-height: 1.6;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1, h2, h3, h4 {
+            color: #1a73e8;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            border-bottom: 3px solid #1a73e8;
+            padding-bottom: 0.3rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background: #e8f0fe;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+        }
+
+        pre {
+            background: #e8f0fe;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.9em;
+            line-height: 1.3;
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        th, td {
+            text-align: left;
+            border: 1px solid #ccc;
+            padding: 0.5rem 1rem;
+        }
+
+        th {
+            background-color: #dbe9ff;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 3rem 0;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 4rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ccc;
+        }
+
+        /* Responsive */
+        @media(max-width: 600px) {
+            body {
+                padding: 1rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sustainable AI Energy Estimator & Prompt Optimizer</h1>
+    <p><strong>Project Report</strong></p>
+
+    <h2>1. Overview</h2>
+    <p>
+        This project aims to estimate the energy consumption of running prompts on large language models (LLMs) and recommend lower-energy alternatives that maintain semantic equivalence.
+        The system integrates natural language processing, supervised learning energy prediction, anomaly detection, and prompt optimization to facilitate sustainable AI practices.
+    </p>
+
+    <h2>2. Application Features</h2>
+    <ul>
+        <li>User inputs prompt text, number of model layers, known training time, and expected FLOPs per hour.</li>
+        <li>Estimates energy consumption (in kWh) for the given prompt execution.</li>
+        <li>Recommends semantically equivalent prompts with lower expected energy use.</li>
+        <li>Detects anomalies for unusually high energy consumption cases.</li>
+        <li>Provides a user-friendly GUI via Streamlit.</li>
+    </ul>
+
+    <h2>3. System Architecture</h2>
+    <p>The high-level system components and data flow:</p>
+
+    <pre><code>
+[User Input: Prompt + Model Parameters]
+         ↓
+[NLP Module]
+   → Token Count
+   → Complexity Score
+         ↓
+[Energy Prediction Model]
+   (Supervised Learning: RF / NN)
+         ↓
+[Anomaly Detection Module]
+   (Isolation Forest / One-Class SVM)
+   → Flags Unusual Consumption
+         ↓
+[Prompt Optimizer]
+   → Uses Embeddings + Paraphrasing
+   → Suggests Low-Energy Equivalent Prompt
+         ↓
+[Output Layer]
+   → Predicted Energy (kWh)
+   → Optimized Prompt Suggestion
+         ↓
+[Streamlit or Flask GUI]
+   → Visualizes Results
+   → Accepts Next Prompt
+    </code></pre>
+
+    <h3>Component Descriptions:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Module</th>
+                <th>Functionality</th>
+                <th>Technologies / Libraries</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>User Interface</td>
+                <td>Input collection, result visualization</td>
+                <td>Streamlit</td>
+            </tr>
+            <tr>
+                <td>NLP Module</td>
+                <td>Prompt parsing, complexity scoring, simplification</td>
+                <td>sentence-transformers, T5/GPT-2, OpenAI embeddings</td>
+            </tr>
+            <tr>
+                <td>Energy Prediction Engine</td>
+                <td>Predict energy use based on parameters and prompt features</td>
+                <td>scikit-learn (Random Forest)</td>
+            </tr>
+            <tr>
+                <td>Anomaly Detection</td>
+                <td>Flag abnormal energy consumption patterns</td>
+                <td>Isolation Forest</td>
+            </tr>
+            <tr>
+                <td>Optimization & Recommendation</td>
+                <td>Generate and rank low-energy prompt alternatives</td>
+                <td>fine-tuned LLMs, semantic similarity search</td>
+            </tr>
+            <tr>
+                <td>Data Logging</td>
+                <td>Record inputs, predictions, and recommendations</td>
+                <td>SQLite</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. Folder Structure</h2>
+    <p>The project follows a modular and scalable folder organization:</p>
+    <pre><code>
+SustainableAI_Project/
+├── data/                         # Raw, processed, and synthetic datasets
+│   ├── raw/
+│   ├── processed/
+│   └── synthetic/
+│
+├── model/                        # Trained models (.pt, .pkl, .h5)
+│   ├── energy_predictor/
+│   ├── nlp_transformer/
+│   ├── anomaly_detector/
+│   └── prompt_optimizer/
+│
+├── src/                          # Source code
+│   ├── gui/                      # Frontend app code (Streamlit/Tkinter)
+│   ├── nlp/                      # NLP components (parser, simplifier)
+│   ├── prediction/               # Energy estimation logic
+│   ├── optimization/             # Prompt optimization engine
+│   ├── anomaly/                  # Anomaly detection
+│   └── utils/                    # Utilities (logging, config)
+│
+├── reports/                      # Reports, logs, visualizations
+├── documentation/               # Architecture and user docs
+├── notebooks/                   # Experimental Jupyter notebooks
+├── tests/                       # Unit and integration tests
+├── requirements.txt             # Python dependencies
+├── README.md                    # Project overview
+└── run.sh                       # Optional run script
+    </code></pre>
+
+    <h2>5. Progress & Implementation Details</h2>
+    <ul>
+        <li><strong>Frontend GUI:</strong> Developed with Streamlit, supports prompt and parameter input, displays results clearly.</li>
+        <li><strong>NLP Module:</strong> Token counting and basic complexity scoring implemented; integration with sentence-transformers ongoing.</li>
+        <li><strong>Energy Prediction:</strong> Baseline Linear Regression and Random Forest models trained on sample data; results verified.</li>
+        <li><strong>Anomaly Detection:</strong> Prototype Isolation Forest model trained and flags tested.</li>
+        <li><strong>Prompt Optimization:</strong> Initial implementation using sentence embeddings for semantic similarity; paraphrasing model fine-tuning planned.</li>
+        <li><strong>Logging:</strong> SQLite backend setup; logging of prompts and results enabled.</li>
+    </ul>
+
+    <h2>6. Next Steps</h2>
+    <ul>
+        <li>Fine-tune prompt simplification model with T5 or GPT-2 for better paraphrasing.</li>
+        <li>Optimize energy prediction model with more diverse training data.</li>
+        <li>Integrate anomaly detection fully with GUI for user feedback.</li>
+        <li>Improve recommendation engine to rank alternative prompts by energy use and semantic closeness.</li>
+        <li>Prepare comprehensive unit and integration tests.</li>
+    </ul>
+
+    <hr />
+    <footer>
+        &copy; 2025 Sustainable AI Project — All Rights Reserved
+    </footer>
+</body>
+</html>
